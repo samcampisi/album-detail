@@ -18,13 +18,19 @@ export const mediaReducer: Reducer<MediaState, MediaActions> = (
         isLoading: true,
         error: undefined,
       };
-    case MediaActionTypes.FETCH_ALBUMS_SUCCESS:
+    case MediaActionTypes.FETCH_ALBUMS_SUCCESS: {
       action = action as FetchAlbumsSuccess;
+      const albums = new Map(state.albums);
+      action.payload.albums.forEach((album) => {
+        albums.set(album.id, album);
+      });
       return {
         ...state,
         isLoading: false,
+        albums,
         error: undefined,
       };
+    }
     case MediaActionTypes.FETCH_ALBUMS_FAILURE:
       action = action as FetchAlbumsFailure;
       return {
