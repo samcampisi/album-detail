@@ -37,7 +37,10 @@ export interface FetchPhotosByAlbumRequest extends Action {
 
 export interface FetchPhotosByAlbumSuccess extends Action {
   type: MediaActionTypes.FETCH_PHOTOS_BY_ALBUM_SUCCESS;
-  payload: { photos: Photo[] };
+  payload: {
+    albumId: number;
+    photos: Photo[];
+  };
 }
 
 export interface FetchPhotosByAlbumFailure extends Action {
@@ -110,7 +113,7 @@ export const getPhotosByAlbum = (albumId: number): ThunkResult => {
       .getClient()
       .get(`albums/${albumId}/photos`)
       .then((response: AxiosResponse<Photo[]>) =>
-        dispatch(getPhotosByAlbumSuccess(response.data)),
+        dispatch(getPhotosByAlbumSuccess(albumId, response.data)),
       )
       .catch((error: any) => dispatch(getPhotosByAlbumFailure(error)));
   };
@@ -120,9 +123,12 @@ export const getPhotosByAlbumRequest = (): MediaActions => ({
   type: MediaActionTypes.FETCH_PHOTOS_BY_ALBUM,
 });
 
-export const getPhotosByAlbumSuccess = (photos: Photo[]): MediaActions => ({
+export const getPhotosByAlbumSuccess = (
+  albumId: number,
+  photos: Photo[],
+): MediaActions => ({
   type: MediaActionTypes.FETCH_PHOTOS_BY_ALBUM_SUCCESS,
-  payload: { photos },
+  payload: { albumId, photos },
 });
 
 export const getPhotosByAlbumFailure = (error: any): MediaActions => ({

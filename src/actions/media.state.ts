@@ -1,9 +1,9 @@
-import { Album } from './types';
+import { AlbumEntry } from './types';
 
 export interface MediaState {
   isLoading: boolean;
   error?: any;
-  albums: Map<number, Album>;
+  albums: Map<number, AlbumEntry>;
 }
 
 export const initialMediaState: MediaState = {
