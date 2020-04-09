@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, { Component } from 'react';
 import { StatusBar, Text, View, FlatList } from 'react-native';
 import { ThunkDispatch } from 'redux-thunk';
@@ -13,18 +5,19 @@ import { connect } from 'react-redux';
 import { MediaState } from '../../actions/media.state';
 import { MediaActions, getAlbums } from '../../actions/media.actions';
 import { ApplicationState } from 'utils/app.reducer';
-import { Album } from 'actions/types';
+import { AlbumEntry } from 'actions/types';
+import Router from 'utils/Router';
 
 interface HomeProps {
   componentId: string;
   getAlbums: () => void;
   isLoading: boolean;
-  albums: Map<number, Album>;
+  albums: Map<number, AlbumEntry>;
 }
 
 interface HomeState {
-  data: Album[];
-  fullList: Album[];
+  data: AlbumEntry[];
+  fullList: AlbumEntry[];
 }
 
 interface DispatchProps {
@@ -52,7 +45,11 @@ export class App extends Component<HomeProps, HomeState> {
     this.props.getAlbums();
   }
 
-  extractKey = (item: Album) => item.id.toString();
+  onAlbumPress = (item: AlbumEntry) => {
+    Router.goToPhotoListScreen(this.props.componentId, item.album.id);
+  };
+
+  extractKey = (item: AlbumEntry) => item.album.id.toString();
 
   render() {
     return (
@@ -61,7 +58,14 @@ export class App extends Component<HomeProps, HomeState> {
         <Text>Hello world</Text>
         <FlatList
           data={this.state.data}
-          renderItem={({ item }) => <Text>{item.title}</Text>}
+          renderItem={({ item }) => (
+            <Text
+              onPress={() => {
+                this.onAlbumPress(item);
+              }}>
+              {item.album.title}
+            </Text>
+          )}
           keyExtractor={this.extractKey}
         />
       </View>

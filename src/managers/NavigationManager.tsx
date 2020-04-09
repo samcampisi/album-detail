@@ -1,5 +1,6 @@
 import { Navigation } from 'react-native-navigation';
 import App from 'screens/HomeScreen';
+import PhotoList from 'screens/PhotoListScreen';
 import { Store } from 'redux';
 import { ApplicationState } from 'utils/app.reducer';
 import configureStore from 'utils/store';
@@ -12,6 +13,12 @@ export default class NavigationManager {
     Navigation.registerComponentWithRedux(
       'albums.HomeScreen',
       () => App,
+      Provider,
+      this.store,
+    );
+    Navigation.registerComponentWithRedux(
+      'albums.PhotoListScreen',
+      () => PhotoList,
       Provider,
       this.store,
     );
