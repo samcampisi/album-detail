@@ -6,6 +6,7 @@ import { MediaState } from '../../actions/media.state';
 import { MediaActions, getPhotosByAlbum } from '../../actions/media.actions';
 import { ApplicationState } from 'utils/app.reducer';
 import { AlbumEntry, Photo } from 'actions/types';
+import Router from 'utils/Router';
 
 interface PhotoListProps {
   componentId: string;
@@ -48,6 +49,10 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
     props.getPhotosByAlbum(props.albumId);
   }
 
+  onPhotoPress = (item: Photo) => {
+    Router.goToPhotoDetailScreen(item);
+  };
+
   extractKey = (item: Photo) => item.id.toString();
 
   render() {
@@ -56,7 +61,14 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
         <Text>Photo List</Text>
         <FlatList
           data={this.state.data}
-          renderItem={({ item }) => <Text>{item.title}</Text>}
+          renderItem={({ item }) => (
+            <Text
+              onPress={() => {
+                this.onPhotoPress(item);
+              }}>
+              {item.title}
+            </Text>
+          )}
           keyExtractor={this.extractKey}
         />
       </View>

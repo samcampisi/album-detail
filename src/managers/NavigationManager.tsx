@@ -1,6 +1,7 @@
 import { Navigation } from 'react-native-navigation';
 import App from 'screens/HomeScreen';
 import PhotoList from 'screens/PhotoListScreen';
+import PhotoDetail from 'screens/PhotoDetailScreen';
 import { Store } from 'redux';
 import { ApplicationState } from 'utils/app.reducer';
 import configureStore from 'utils/store';
@@ -22,6 +23,7 @@ export default class NavigationManager {
       Provider,
       this.store,
     );
+    Navigation.registerComponent('albums.PhotoDetailScreen', () => PhotoDetail);
   }
 
   static setup() {
