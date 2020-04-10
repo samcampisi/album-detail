@@ -18,7 +18,7 @@ import {
 } from 'react-native-gesture-handler';
 import styles from 'styles/photoDetailScreen.style';
 
-interface PhotoDetailProps {
+export interface PhotoDetailProps {
   componentId: string;
   photo: Photo;
 }
@@ -55,13 +55,13 @@ const PhotoDetail = (props: PhotoDetailProps): JSX.Element | null => {
     Navigation.dismissModal(componentId);
   };
 
+  const toggleShowDetails = () => {
+    setShowDetails(!showDetails);
+  };
+
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          setShowDetails(!showDetails);
-        }}
-        style={styles.fill}>
+      <TouchableWithoutFeedback onPress={toggleShowDetails} style={styles.fill}>
         <View style={styles.fill}>
           <PinchGestureHandler
             onGestureEvent={onZoomEvent}
