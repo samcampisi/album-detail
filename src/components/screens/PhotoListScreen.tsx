@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { View, ListRenderItemInfo, FlatList } from 'react-native';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
+import Carousel from 'react-native-snap-carousel';
 import { MediaState } from '../../actions/media.state';
 import { MediaActions, getPhotosByAlbum } from '../../actions/media.actions';
 import { ApplicationState } from 'utils/app.reducer';
 import { AlbumEntry, Photo } from 'actions/types';
 import Router from 'utils/Router';
+import { itemWidth, sliderWidth } from 'styles/CarouselItem.style';
+import CarouselItem from '../views/CarouselItem';
+import PhotoListItem from '../views/PhotoListItem';
+import Button from '../views/Button';
+import Spinner from '../views/Spinner';
+import styles from 'styles/PhotoListScreen.style';
 
 interface PhotoListProps {
   componentId: string;
@@ -18,6 +25,7 @@ interface PhotoListProps {
 
 interface PhotoListState {
   data: Photo[];
+  listLayout: Boolean;
 }
 
 interface DispatchProps {
@@ -31,6 +39,7 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
   ) {
     const albumEntry = nextProps.albums.get(nextProps.albumId);
     const newList = albumEntry && albumEntry.photos ? albumEntry.photos : [];
+
     if (newList !== prevState.data) {
       return {
         data: newList,
@@ -45,6 +54,7 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
     const data = albumEntry && albumEntry.photos ? albumEntry.photos : [];
     this.state = {
       data,
+      listLayout: true,
     };
     props.getPhotosByAlbum(props.albumId);
   }
@@ -53,24 +63,59 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
     Router.goToPhotoDetailScreen(item);
   };
 
+  onToggleLayout = () => {
+    this.setState({ listLayout: !this.state.listLayout });
+  };
+
   extractKey = (item: Photo) => item.id.toString();
+
+  renderCarouselItem = (info: ListRenderItemInfo<Photo>) => {
+    return <CarouselItem photo={info.item} onPress={this.onPhotoPress} />;
+  };
+
+  renderListItem = (info: ListRenderItemInfo<Photo>) => {
+    return <PhotoListItem photo={info.item} onPress={this.onPhotoPress} />;
+  };
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Text>Photo List</Text>
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => (
-            <Text
-              onPress={() => {
-                this.onPhotoPress(item);
-              }}>
-              {item.title}
-            </Text>
-          )}
-          keyExtractor={this.extractKey}
-        />
+      <View style={styles.mainContainer}>
+        {this.props.isLoading && !this.state.data.length ? (
+          <Spinner fill />
+        ) : (
+          <View style={styles.mainContainer}>
+            <Button
+              title={`Display as ${
+                this.state.listLayout ? 'carousel' : 'list'
+              }`}
+              onPress={this.onToggleLayout}
+              icon={
+                this.state.listLayout
+                  ? require('../../assets/carousel-icon.png')
+                  : require('../../assets/list-icon.png')
+              }
+            />
+            {this.state.listLayout ? (
+              <FlatList
+                data={this.state.data}
+                renderItem={this.renderListItem}
+                keyExtractor={this.extractKey}
+                numColumns={3}
+              />
+            ) : (
+              <Carousel
+                data={this.state.data}
+                renderItem={this.renderCarouselItem}
+                sliderWidth={sliderWidth}
+                itemWidth={itemWidth}
+                containerCustomStyle={styles.carousel}
+                contentContainerCustomStyle={styles.carouselContent}
+                layout="tinder"
+                loop={true}
+              />
+            )}
+          </View>
+        )}
       </View>
     );
   }

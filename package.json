@@ -11,9 +11,11 @@
     "postinstall": "jetify"
   },
   "dependencies": {
+    "@react-native-community/netinfo": "^5.7.0",
     "@types/lodash": "^4.14.149",
     "@types/react": "^16.9.25",
     "@types/react-native": "^0.61.23",
+    "@types/react-native-snap-carousel": "^3.8.1",
     "@types/react-redux": "^7.1.7",
     "@types/react-test-renderer": "^16.9.2",
     "@types/redux-actions": "^2.6.1",
@@ -23,12 +25,15 @@
     "numbro": "^2.2.0",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-cached-image": "https://github.com/fungilation/react-native-cached-image.git",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-navigation": "^6.3.1",
+    "react-native-snap-carousel": "^3.9.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
@@ -60,6 +65,7 @@
   "jest": {
     "preset": "react-native",
     "setupFiles": [
+      "<rootDir>/jest.setup.js",
       "<rootDir>/enzyme.config.ts",
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
@@ -68,8 +74,15 @@
       "tsx",
       "js"
     ],
+    "roots": [
+      "<rootDir>"
+    ],
+    "modulePaths": [
+      "<rootDir>"
+    ],
     "moduleDirectories": [
       "node_modules",
+      "src",
       "__tests__/TestUtils.ts"
     ],
     "moduleNameMapper": {
