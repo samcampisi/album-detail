@@ -65,6 +65,7 @@
   "jest": {
     "preset": "react-native",
     "setupFiles": [
+      "<rootDir>/jest.setup.js",
       "<rootDir>/enzyme.config.ts",
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],

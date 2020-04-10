@@ -3,7 +3,7 @@ import CarouselItem, {
   CarouselItemProps,
 } from '../src/components/views/CarouselItem';
 import TestUtils from './TestUtils';
-import { View, TouchableOpacity, Image, Text } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 
 const mockPhoto = {
   albumId: 1,
@@ -33,7 +33,7 @@ describe('CarouselItem', () => {
     const comp = wrapper();
     const container = comp.find(View);
     const button = comp.find(TouchableOpacity);
-    const image = comp.find(Image);
+    const image = comp.find('CachedImage');
     const text = comp.find(Text);
 
     // Then
