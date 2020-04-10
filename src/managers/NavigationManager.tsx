@@ -1,4 +1,4 @@
-import { Navigation } from 'react-native-navigation';
+import { Navigation, Options } from 'react-native-navigation';
 import App from 'screens/HomeScreen';
 import PhotoList from 'screens/PhotoListScreen';
 import PhotoDetail from 'screens/PhotoDetailScreen';
@@ -33,6 +33,8 @@ export default class NavigationManager {
     this.store = configureStore();
     this.registerScreens();
     Navigation.events().registerAppLaunchedListener(() => {
+      Navigation.setDefaultOptions(navDefaultOptions);
+
       Navigation.setRoot({
         root: {
           stack: {
@@ -54,3 +56,32 @@ export default class NavigationManager {
     });
   }
 }
+
+export const navDefaultOptions: Options = {
+  statusBar: {
+    backgroundColor: '#000000',
+    style: 'dark',
+  },
+  layout: {
+    orientation: ['portrait'],
+    backgroundColor: '#242322',
+  },
+  topBar: {
+    backButton: {
+      color: '#ffffff',
+      showTitle: true,
+    },
+    // @ts-ignore
+    buttonColor: '#ffffff',
+    noBorder: true,
+    elevation: 0,
+    title: {
+      color: '#ffffff',
+      fontWeight: 'bold',
+      alignment: 'center',
+    },
+    background: {
+      color: '#242322',
+    },
+  },
+};
