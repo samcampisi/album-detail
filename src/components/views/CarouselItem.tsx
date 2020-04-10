@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
+import { CachedImage } from 'react-native-cached-image';
 import { Photo } from 'actions/types';
 import styles from 'styles/CarouselItem.style';
 
@@ -17,7 +18,7 @@ const CarouselItem = (props: CarouselItemProps): JSX.Element | null => {
         onPress={() => {
           onPress(photo);
         }}>
-        <Image
+        <CachedImage
           source={{ uri: photo.url }}
           style={styles.image}
           defaultSource={require('../../assets/image-placeholder.png')}

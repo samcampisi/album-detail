@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
+import { CachedImage } from 'react-native-cached-image';
 import { Photo } from 'actions/types';
 import styles from 'styles/PhotoListItem.style';
 
@@ -17,7 +18,7 @@ const PhotoListItem = (props: PhotoListItemProps): JSX.Element | null => {
         onPress={() => {
           onPress(photo);
         }}>
-        <Image
+        <CachedImage
           source={{ uri: photo.thumbnailUrl }}
           style={styles.image}
           resizeMode="contain"

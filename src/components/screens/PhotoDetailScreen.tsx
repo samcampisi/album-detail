@@ -76,6 +76,7 @@ const PhotoDetail = (props: PhotoDetailProps): JSX.Element | null => {
                 transform: [{ scale: scale }],
               }}
               resizeMode="contain"
+              defaultSource={require('../../assets/image-placeholder.png')}
             />
           </PinchGestureHandler>
 

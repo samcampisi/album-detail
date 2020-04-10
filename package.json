@@ -11,6 +11,7 @@
     "postinstall": "jetify"
   },
   "dependencies": {
+    "@react-native-community/netinfo": "^5.7.0",
     "@types/lodash": "^4.14.149",
     "@types/react": "^16.9.25",
     "@types/react-native": "^0.61.23",
@@ -24,13 +25,15 @@
     "numbro": "^2.2.0",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-cached-image": "https://github.com/fungilation/react-native-cached-image.git",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-navigation": "^6.3.1",
     "react-native-snap-carousel": "^3.9.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
