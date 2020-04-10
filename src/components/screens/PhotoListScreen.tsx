@@ -10,6 +10,7 @@ import { AlbumEntry, Photo } from 'actions/types';
 import Router from 'utils/Router';
 import { itemWidth, sliderWidth } from 'styles/CarouselItem.style';
 import CarouselItem from '../views/CarouselItem';
+import Button from '../views/Button';
 import styles from 'styles/PhotoListScreen.style';
 
 interface PhotoListProps {
@@ -22,6 +23,7 @@ interface PhotoListProps {
 
 interface PhotoListState {
   data: Photo[];
+  listLayout: Boolean;
 }
 
 interface DispatchProps {
@@ -50,12 +52,17 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
     const data = albumEntry && albumEntry.photos ? albumEntry.photos : [];
     this.state = {
       data,
+      listLayout: true,
     };
     props.getPhotosByAlbum(props.albumId);
   }
 
   onPhotoPress = (item: Photo) => {
     Router.goToPhotoDetailScreen(item);
+  };
+
+  onToggleLayout = () => {
+    this.setState({ listLayout: !this.state.listLayout });
   };
 
   extractKey = (item: Photo) => item.id.toString();
@@ -67,6 +74,15 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
   render() {
     return (
       <View style={styles.mainContainer}>
+        <Button
+          title={`Display as ${this.state.listLayout ? 'carousel' : 'list'}`}
+          onPress={this.onToggleLayout}
+          icon={
+            this.state.listLayout
+              ? require('../../assets/carousel-icon.png')
+              : require('../../assets/list-icon.png')
+          }
+        />
         <Carousel
           data={this.state.data}
           renderItem={this.renderItem}

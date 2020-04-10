@@ -37,5 +37,6 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '700',
+    color: '#242322',
   },
 });
