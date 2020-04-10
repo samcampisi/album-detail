@@ -74,8 +74,15 @@
       "tsx",
       "js"
     ],
+    "roots": [
+      "<rootDir>"
+    ],
+    "modulePaths": [
+      "<rootDir>"
+    ],
     "moduleDirectories": [
       "node_modules",
+      "src",
       "__tests__/TestUtils.ts"
     ],
     "moduleNameMapper": {

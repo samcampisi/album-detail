@@ -16,7 +16,7 @@ import {
   State,
   GestureHandlerStateChangeEvent,
 } from 'react-native-gesture-handler';
-import styles from '../../styles/PhotoDetailScreen.style';
+import styles from 'styles/PhotoDetailScreen.style';
 
 export interface PhotoDetailProps {
   componentId: string;
