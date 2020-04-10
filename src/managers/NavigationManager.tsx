@@ -1,10 +1,12 @@
 import { Navigation } from 'react-native-navigation';
 import App from 'screens/HomeScreen';
 import PhotoList from 'screens/PhotoListScreen';
+import PhotoDetail from 'screens/PhotoDetailScreen';
 import { Store } from 'redux';
 import { ApplicationState } from 'utils/app.reducer';
 import configureStore from 'utils/store';
 import { Provider } from 'react-redux';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 export default class NavigationManager {
   private static store: Store<ApplicationState>;
@@ -12,15 +14,18 @@ export default class NavigationManager {
   private static registerScreens() {
     Navigation.registerComponentWithRedux(
       'albums.HomeScreen',
-      () => App,
+      () => gestureHandlerRootHOC(App),
       Provider,
       this.store,
     );
     Navigation.registerComponentWithRedux(
       'albums.PhotoListScreen',
-      () => PhotoList,
+      () => gestureHandlerRootHOC(PhotoList),
       Provider,
       this.store,
+    );
+    Navigation.registerComponent('albums.PhotoDetailScreen', () =>
+      gestureHandlerRootHOC(PhotoDetail),
     );
   }
 

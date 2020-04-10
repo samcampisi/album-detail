@@ -221,6 +221,8 @@ PODS:
     - React
     - React-RCTImage
     - React-RCTText
+  - RNGestureHandler (1.6.1):
+    - React
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -252,6 +254,7 @@ DEPENDENCIES:
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -309,6 +312,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeNavigation:
     :path: "../node_modules/react-native-navigation"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -339,8 +344,9 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   ReactNativeNavigation: d9bb71088ef37aa6af58f3172f890a1ae08861d6
+  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 2ecd2e8b9b2d5fcb7ed8e9e68ea7cc17f7450d2e
+PODFILE CHECKSUM: 0cd0005784f1a1fabef801399c02693b0909aaef
 
 COCOAPODS: 1.9.1
