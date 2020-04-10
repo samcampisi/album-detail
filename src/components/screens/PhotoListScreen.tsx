@@ -12,6 +12,7 @@ import { itemWidth, sliderWidth } from 'styles/CarouselItem.style';
 import CarouselItem from '../views/CarouselItem';
 import PhotoListItem from '../views/PhotoListItem';
 import Button from '../views/Button';
+import Spinner from '../views/Spinner';
 import styles from 'styles/PhotoListScreen.style';
 
 interface PhotoListProps {
@@ -79,33 +80,41 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <Button
-          title={`Display as ${this.state.listLayout ? 'carousel' : 'list'}`}
-          onPress={this.onToggleLayout}
-          icon={
-            this.state.listLayout
-              ? require('../../assets/carousel-icon.png')
-              : require('../../assets/list-icon.png')
-          }
-        />
-        {this.state.listLayout ? (
-          <FlatList
-            data={this.state.data}
-            renderItem={this.renderListItem}
-            keyExtractor={this.extractKey}
-            numColumns={3}
-          />
+        {this.props.isLoading && !this.state.data.length ? (
+          <Spinner fill />
         ) : (
-          <Carousel
-            data={this.state.data}
-            renderItem={this.renderCarouselItem}
-            sliderWidth={sliderWidth}
-            itemWidth={itemWidth}
-            containerCustomStyle={styles.carousel}
-            contentContainerCustomStyle={styles.carouselContent}
-            layout="tinder"
-            loop={true}
-          />
+          <View style={styles.mainContainer}>
+            <Button
+              title={`Display as ${
+                this.state.listLayout ? 'carousel' : 'list'
+              }`}
+              onPress={this.onToggleLayout}
+              icon={
+                this.state.listLayout
+                  ? require('../../assets/carousel-icon.png')
+                  : require('../../assets/list-icon.png')
+              }
+            />
+            {this.state.listLayout ? (
+              <FlatList
+                data={this.state.data}
+                renderItem={this.renderListItem}
+                keyExtractor={this.extractKey}
+                numColumns={3}
+              />
+            ) : (
+              <Carousel
+                data={this.state.data}
+                renderItem={this.renderCarouselItem}
+                sliderWidth={sliderWidth}
+                itemWidth={itemWidth}
+                containerCustomStyle={styles.carousel}
+                contentContainerCustomStyle={styles.carouselContent}
+                layout="tinder"
+                loop={true}
+              />
+            )}
+          </View>
         )}
       </View>
     );
