@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { View, ListRenderItemInfo } from 'react-native';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
+import Carousel from 'react-native-snap-carousel';
 import { MediaState } from '../../actions/media.state';
 import { MediaActions, getPhotosByAlbum } from '../../actions/media.actions';
 import { ApplicationState } from 'utils/app.reducer';
 import { AlbumEntry, Photo } from 'actions/types';
 import Router from 'utils/Router';
+import { itemWidth, sliderWidth } from 'styles/CarouselItem.style';
+import CarouselItem from '../views/CarouselItem';
+import styles from 'styles/PhotoListScreen.style';
 
 interface PhotoListProps {
   componentId: string;
@@ -31,6 +35,7 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
   ) {
     const albumEntry = nextProps.albums.get(nextProps.albumId);
     const newList = albumEntry && albumEntry.photos ? albumEntry.photos : [];
+
     if (newList !== prevState.data) {
       return {
         data: newList,
@@ -55,21 +60,22 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
 
   extractKey = (item: Photo) => item.id.toString();
 
+  renderItem = (info: ListRenderItemInfo<Photo>) => {
+    return <CarouselItem photo={info.item} onPress={this.onPhotoPress} />;
+  };
+
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Text>Photo List</Text>
-        <FlatList
+      <View style={styles.mainContainer}>
+        <Carousel
           data={this.state.data}
-          renderItem={({ item }) => (
-            <Text
-              onPress={() => {
-                this.onPhotoPress(item);
-              }}>
-              {item.title}
-            </Text>
-          )}
-          keyExtractor={this.extractKey}
+          renderItem={this.renderItem}
+          sliderWidth={sliderWidth}
+          itemWidth={itemWidth}
+          containerCustomStyle={styles.carousel}
+          contentContainerCustomStyle={styles.carouselContent}
+          layout="tinder"
+          loop={true}
         />
       </View>
     );
