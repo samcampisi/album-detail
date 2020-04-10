@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ListRenderItemInfo } from 'react-native';
+import { View, ListRenderItemInfo, FlatList } from 'react-native';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
@@ -10,6 +10,7 @@ import { AlbumEntry, Photo } from 'actions/types';
 import Router from 'utils/Router';
 import { itemWidth, sliderWidth } from 'styles/CarouselItem.style';
 import CarouselItem from '../views/CarouselItem';
+import PhotoListItem from '../views/PhotoListItem';
 import Button from '../views/Button';
 import styles from 'styles/PhotoListScreen.style';
 
@@ -67,8 +68,12 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
 
   extractKey = (item: Photo) => item.id.toString();
 
-  renderItem = (info: ListRenderItemInfo<Photo>) => {
+  renderCarouselItem = (info: ListRenderItemInfo<Photo>) => {
     return <CarouselItem photo={info.item} onPress={this.onPhotoPress} />;
+  };
+
+  renderListItem = (info: ListRenderItemInfo<Photo>) => {
+    return <PhotoListItem photo={info.item} onPress={this.onPhotoPress} />;
   };
 
   render() {
@@ -83,16 +88,25 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
               : require('../../assets/list-icon.png')
           }
         />
-        <Carousel
-          data={this.state.data}
-          renderItem={this.renderItem}
-          sliderWidth={sliderWidth}
-          itemWidth={itemWidth}
-          containerCustomStyle={styles.carousel}
-          contentContainerCustomStyle={styles.carouselContent}
-          layout="tinder"
-          loop={true}
-        />
+        {this.state.listLayout ? (
+          <FlatList
+            data={this.state.data}
+            renderItem={this.renderListItem}
+            keyExtractor={this.extractKey}
+            numColumns={3}
+          />
+        ) : (
+          <Carousel
+            data={this.state.data}
+            renderItem={this.renderCarouselItem}
+            sliderWidth={sliderWidth}
+            itemWidth={itemWidth}
+            containerCustomStyle={styles.carousel}
+            contentContainerCustomStyle={styles.carouselContent}
+            layout="tinder"
+            loop={true}
+          />
+        )}
       </View>
     );
   }
