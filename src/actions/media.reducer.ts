@@ -18,8 +18,9 @@ export const mediaReducer: Reducer<MediaState, MediaActions> = (
     case MediaActionTypes.FETCH_ALBUMS:
       return {
         ...state,
-        isLoading: true,
+        isLoadingAlbums: true,
         error: undefined,
+        noMoreAlbums: false,
       };
     case MediaActionTypes.FETCH_ALBUMS_SUCCESS: {
       action = action as FetchAlbumsSuccess;
@@ -30,22 +31,23 @@ export const mediaReducer: Reducer<MediaState, MediaActions> = (
       });
       return {
         ...state,
-        isLoading: false,
+        isLoadingAlbums: false,
         albums,
         error: undefined,
+        noMoreAlbums: action.payload.albums.length === 0,
       };
     }
     case MediaActionTypes.FETCH_ALBUMS_FAILURE:
       action = action as FetchAlbumsFailure;
       return {
         ...state,
-        isLoading: false,
+        isLoadingAlbums: false,
         error: action.payload.error,
       };
     case MediaActionTypes.FETCH_PHOTOS_BY_ALBUM:
       return {
         ...state,
-        isLoading: true,
+        isLoadingPhotos: true,
         error: undefined,
       };
     case MediaActionTypes.FETCH_PHOTOS_BY_ALBUM_SUCCESS: {
@@ -60,7 +62,7 @@ export const mediaReducer: Reducer<MediaState, MediaActions> = (
       }
       return {
         ...state,
-        isLoading: false,
+        isLoadingPhotos: false,
         albums,
         error: undefined,
       };
@@ -69,7 +71,7 @@ export const mediaReducer: Reducer<MediaState, MediaActions> = (
       action = action as FetchPhotosByAlbumFailure;
       return {
         ...state,
-        isLoading: false,
+        isLoadingPhotos: false,
         error: action.payload.error,
       };
     default:

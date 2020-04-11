@@ -19,7 +19,7 @@ interface PhotoListProps {
   componentId: string;
   getPhotosByAlbum: (albumId: number) => void;
   albumId: number;
-  isLoading: boolean;
+  isloadingPhotos: boolean;
   albums: Map<number, AlbumEntry>;
 }
 
@@ -80,7 +80,7 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
   render() {
     return (
       <View style={styles.mainContainer}>
-        {this.props.isLoading && !this.state.data.length ? (
+        {this.props.isloadingPhotos && !this.state.data.length ? (
           <Spinner fill />
         ) : (
           <View style={styles.mainContainer}>
@@ -101,6 +101,7 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
                 renderItem={this.renderListItem}
                 keyExtractor={this.extractKey}
                 numColumns={3}
+                removeClippedSubviews
               />
             ) : (
               <Carousel
@@ -122,7 +123,7 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
 }
 
 const mapStateToProps = ({ media }: ApplicationState): MediaState => ({
-  isLoading: media.isLoading,
+  isLoadingPhotos: media.isLoadingPhotos,
   albums: media.albums,
   error: media.error,
 });

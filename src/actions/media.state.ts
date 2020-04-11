@@ -1,12 +1,16 @@
 import { AlbumEntry } from './types';
 
 export interface MediaState {
-  isLoading: boolean;
+  isLoadingAlbums?: boolean;
+  isLoadingPhotos?: boolean;
   error?: any;
   albums: Map<number, AlbumEntry>;
+  noMoreAlbums?: boolean;
 }
 
 export const initialMediaState: MediaState = {
-  isLoading: false,
+  isLoadingAlbums: false,
+  isLoadingPhotos: false,
   albums: new Map(),
+  noMoreAlbums: false,
 };
