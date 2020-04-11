@@ -5,10 +5,12 @@ export interface MediaState {
   isLoadingPhotos?: boolean;
   error?: any;
   albums: Map<number, AlbumEntry>;
+  noMoreAlbums?: boolean;
 }
 
 export const initialMediaState: MediaState = {
   isLoadingAlbums: false,
   isLoadingPhotos: false,
   albums: new Map(),
+  noMoreAlbums: false,
 };

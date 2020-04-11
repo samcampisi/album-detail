@@ -20,6 +20,7 @@ export const mediaReducer: Reducer<MediaState, MediaActions> = (
         ...state,
         isLoadingAlbums: true,
         error: undefined,
+        noMoreAlbums: false,
       };
     case MediaActionTypes.FETCH_ALBUMS_SUCCESS: {
       action = action as FetchAlbumsSuccess;
@@ -33,6 +34,7 @@ export const mediaReducer: Reducer<MediaState, MediaActions> = (
         isLoadingAlbums: false,
         albums,
         error: undefined,
+        noMoreAlbums: action.payload.albums.length === 0,
       };
     }
     case MediaActionTypes.FETCH_ALBUMS_FAILURE:

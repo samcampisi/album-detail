@@ -75,14 +75,16 @@ export type MediaActions =
 
 type ThunkResult = ThunkAction<void, MediaState, undefined, MediaActions>;
 
-export const getAlbums = (): ThunkResult => {
+export const ITEMS_PER_PAGE = 20;
+
+export const getAlbums = (_start?: number): ThunkResult => {
   return async (
     dispatch: ThunkDispatch<MediaState, undefined, MediaActions>,
   ) => {
     dispatch(getAlbumsRequest());
     return ApiService.getInstance()
       .getClient()
-      .get('albums')
+      .get('albums', { params: { _start, _limit: ITEMS_PER_PAGE } })
       .then((response: AxiosResponse<Album[]>) => {
         dispatch(getAlbumsSuccess(response.data));
         response.data.forEach((album) => {
