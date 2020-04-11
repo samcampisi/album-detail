@@ -13,8 +13,8 @@ export default StyleSheet.create({
     backgroundColor: '#f2e6e1',
   },
   image: {
-    width: 120,
-    height: 120,
+    width: 130,
+    height: 130,
     borderRadius: 15,
   },
   title: {

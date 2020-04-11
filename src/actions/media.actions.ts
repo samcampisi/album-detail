@@ -83,9 +83,12 @@ export const getAlbums = (): ThunkResult => {
     return ApiService.getInstance()
       .getClient()
       .get('albums')
-      .then((response: AxiosResponse<Album[]>) =>
-        dispatch(getAlbumsSuccess(response.data)),
-      )
+      .then((response: AxiosResponse<Album[]>) => {
+        dispatch(getAlbumsSuccess(response.data));
+        response.data.forEach((album) => {
+          dispatch(getPhotosByAlbum(album.id, 0, 1)); // only bring the first photo
+        });
+      })
       .catch((error: any) => dispatch(getAlbumsFailure(error)));
   };
 };
@@ -104,14 +107,18 @@ export const getAlbumsFailure = (error: any): MediaActions => ({
   payload: { error },
 });
 
-export const getPhotosByAlbum = (albumId: number): ThunkResult => {
+export const getPhotosByAlbum = (
+  albumId: number,
+  _start?: number,
+  _limit?: number,
+): ThunkResult => {
   return async (
     dispatch: ThunkDispatch<MediaState, undefined, MediaActions>,
   ) => {
     dispatch(getPhotosByAlbumRequest());
     return ApiService.getInstance()
       .getClient()
-      .get(`albums/${albumId}/photos`)
+      .get('photos', { params: { albumId, _start, _limit } })
       .then((response: AxiosResponse<Photo[]>) =>
         dispatch(getPhotosByAlbumSuccess(albumId, response.data)),
       )

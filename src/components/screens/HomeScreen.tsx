@@ -33,7 +33,7 @@ export class App extends Component<HomeProps, HomeState> {
     if (newList !== prevState.fullList) {
       return {
         fullList: newList,
-        data: !prevState.data.length ? newList : prevState.data,
+        data: newList,
       };
     }
     return null;
