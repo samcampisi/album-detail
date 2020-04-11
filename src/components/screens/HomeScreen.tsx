@@ -19,6 +19,7 @@ import { AlbumEntry } from 'actions/types';
 import Router from 'utils/Router';
 import Spinner from '../views/Spinner';
 import AlbumItem from '../views/AlbumItem';
+import SearchBar from '../views/SearchBar';
 import styles from 'styles/HomeScreen.style';
 
 interface HomeProps {
@@ -42,7 +43,7 @@ interface DispatchProps {
 export class App extends Component<HomeProps, HomeState> {
   static getDerivedStateFromProps(nextProps: HomeProps, prevState: HomeState) {
     const newList = Array.from(nextProps.albums.values());
-    if (newList !== prevState.fullList) {
+    if (JSON.stringify(newList) !== JSON.stringify(prevState.fullList)) {
       return {
         fullList: newList,
         data: newList,
@@ -70,7 +71,7 @@ export class App extends Component<HomeProps, HomeState> {
   };
 
   fetchMore = () => {
-    if (!this.props.noMoreAlbums) {
+    if (!this.props.noMoreAlbums && this.state.data.length >= ITEMS_PER_PAGE) {
       const newCheckpoint = this.state.checkpointIndex + ITEMS_PER_PAGE;
       this.setState({ checkpointIndex: newCheckpoint });
       this.fetchAlbums(newCheckpoint + 1);
@@ -79,12 +80,34 @@ export class App extends Component<HomeProps, HomeState> {
 
   extractKey = (item: AlbumEntry) => item.album.id.toString();
 
+  searchFilterFunction = (text: string) => {
+    const newData = this.state.fullList.filter((item: AlbumEntry) => {
+      return item.album.title.toLowerCase().includes(text.toLowerCase());
+    });
+    this.setState({
+      data: newData,
+    });
+  };
+
   renderItem = (info: ListRenderItemInfo<AlbumEntry>) => {
     return (
       <AlbumItem
         albumEntry={info.item}
         onPress={this.onAlbumPress}
         style={info.index % 2 ? styles.paddingRight : styles.paddingLeft}
+      />
+    );
+  };
+
+  renderSearchBar = () => {
+    return (
+      <SearchBar
+        onTextChange={(query: string) => {
+          this.searchFilterFunction(query);
+        }}
+        onCancelPress={() => {
+          this.setState({ data: this.state.fullList });
+        }}
       />
     );
   };
@@ -117,6 +140,8 @@ export class App extends Component<HomeProps, HomeState> {
               }
               onEndReached={this.fetchMore}
               onEndReachedThreshold={0.15}
+              ListHeaderComponent={this.renderSearchBar}
+              keyboardShouldPersistTaps="handled"
             />
           </View>
         )}
