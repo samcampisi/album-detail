@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, Text, View, FlatList } from 'react-native';
+import { StatusBar, View, FlatList, ListRenderItemInfo } from 'react-native';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { MediaState } from '../../actions/media.state';
@@ -7,6 +7,9 @@ import { MediaActions, getAlbums } from '../../actions/media.actions';
 import { ApplicationState } from 'utils/app.reducer';
 import { AlbumEntry } from 'actions/types';
 import Router from 'utils/Router';
+import Spinner from '../views/Spinner';
+import AlbumItem from '../views/AlbumItem';
+import styles from 'styles/HomeScreen.style';
 
 interface HomeProps {
   componentId: string;
@@ -51,23 +54,32 @@ export class App extends Component<HomeProps, HomeState> {
 
   extractKey = (item: AlbumEntry) => item.album.id.toString();
 
+  renderItem = (info: ListRenderItemInfo<AlbumEntry>) => {
+    return (
+      <AlbumItem
+        albumEntry={info.item}
+        onPress={this.onAlbumPress}
+        style={info.index % 2 ? styles.paddingRight : styles.paddingLeft}
+      />
+    );
+  };
+
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.mainContainer}>
         <StatusBar barStyle="dark-content" />
-        <Text>Hello world</Text>
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => (
-            <Text
-              onPress={() => {
-                this.onAlbumPress(item);
-              }}>
-              {item.album.title}
-            </Text>
-          )}
-          keyExtractor={this.extractKey}
-        />
+        {this.props.isLoading && !this.state.data.length ? (
+          <Spinner fill />
+        ) : (
+          <View style={styles.mainContainer}>
+            <FlatList
+              data={this.state.data}
+              renderItem={this.renderItem}
+              keyExtractor={this.extractKey}
+              numColumns={2}
+            />
+          </View>
+        )}
       </View>
     );
   }
