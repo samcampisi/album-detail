@@ -44,7 +44,9 @@ export default class NavigationManager {
                   name: 'albums.HomeScreen',
                   options: {
                     topBar: {
-                      visible: false,
+                      title: {
+                        text: 'Welcome to Albums!',
+                      },
                     },
                   },
                 },
@@ -69,7 +71,7 @@ export const navDefaultOptions: Options = {
   topBar: {
     backButton: {
       color: '#ffffff',
-      showTitle: true,
+      showTitle: false,
     },
     // @ts-ignore
     buttonColor: '#ffffff',

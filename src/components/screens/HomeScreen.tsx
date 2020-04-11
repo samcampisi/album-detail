@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { StatusBar, View, FlatList, ListRenderItemInfo } from 'react-native';
+import {
+  StatusBar,
+  View,
+  FlatList,
+  ListRenderItemInfo,
+  RefreshControl,
+} from 'react-native';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { MediaState } from '../../actions/media.state';
@@ -14,7 +20,7 @@ import styles from 'styles/HomeScreen.style';
 interface HomeProps {
   componentId: string;
   getAlbums: () => void;
-  isLoading: boolean;
+  isLoadingAlbums: boolean;
   albums: Map<number, AlbumEntry>;
 }
 
@@ -45,11 +51,15 @@ export class App extends Component<HomeProps, HomeState> {
       data: Array.from(props.albums.values()),
       fullList: Array.from(props.albums.values()),
     };
-    this.props.getAlbums();
+    this.fetchAlbums();
   }
 
   onAlbumPress = (item: AlbumEntry) => {
     Router.goToPhotoListScreen(this.props.componentId, item.album.id);
+  };
+
+  fetchAlbums = () => {
+    this.props.getAlbums();
   };
 
   extractKey = (item: AlbumEntry) => item.album.id.toString();
@@ -68,7 +78,7 @@ export class App extends Component<HomeProps, HomeState> {
     return (
       <View style={styles.mainContainer}>
         <StatusBar barStyle="dark-content" />
-        {this.props.isLoading && !this.state.data.length ? (
+        {this.props.isLoadingAlbums && !this.state.data.length ? (
           <Spinner fill />
         ) : (
           <View style={styles.mainContainer}>
@@ -77,6 +87,17 @@ export class App extends Component<HomeProps, HomeState> {
               renderItem={this.renderItem}
               keyExtractor={this.extractKey}
               numColumns={2}
+              removeClippedSubviews
+              refreshControl={
+                <RefreshControl
+                  tintColor="#ffffff"
+                  refreshing={
+                    this.props.isLoadingAlbums &&
+                    Boolean(this.state.data.length)
+                  }
+                  onRefresh={this.fetchAlbums}
+                />
+              }
             />
           </View>
         )}
@@ -86,7 +107,7 @@ export class App extends Component<HomeProps, HomeState> {
 }
 
 const mapStateToProps = ({ media }: ApplicationState): MediaState => ({
-  isLoading: media.isLoading,
+  isLoadingAlbums: media.isLoadingAlbums,
   albums: media.albums,
   error: media.error,
 });
