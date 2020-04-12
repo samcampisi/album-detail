@@ -43,7 +43,7 @@ public class MainApplication extends NavigationApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+    //initializeFlipper(this); // Remove this line if you don't want Flipper enabled
   }
 
   /**
