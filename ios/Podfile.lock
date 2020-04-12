@@ -227,6 +227,8 @@ PODS:
     - React-RCTText
   - rn-fetch-blob (0.12.0):
     - React-Core
+  - RNCAsyncStorage (1.9.0):
+    - React
   - RNGestureHandler (1.6.1):
     - React
   - Yoga (1.14.0)
@@ -263,6 +265,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -327,6 +330,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-navigation"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   Yoga:
@@ -362,6 +367,7 @@ SPEC CHECKSUMS:
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   ReactNativeNavigation: d9bb71088ef37aa6af58f3172f890a1ae08861d6
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
+  RNCAsyncStorage: b16697280b08bab4b5f2f67f752d93d13a52e9ed
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
