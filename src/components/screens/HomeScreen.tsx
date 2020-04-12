@@ -94,7 +94,10 @@ export class App extends Component<HomeProps, HomeState> {
       <AlbumItem
         albumEntry={info.item}
         onPress={this.onAlbumPress}
-        style={info.index % 2 ? styles.paddingRight : styles.paddingLeft}
+        style={
+          this.state.data.length > 1 &&
+          (info.index % 2 ? styles.paddingRight : styles.paddingLeft)
+        }
       />
     );
   };
