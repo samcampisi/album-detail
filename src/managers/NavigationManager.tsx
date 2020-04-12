@@ -3,6 +3,7 @@ import App from 'screens/HomeScreen';
 import PhotoList from 'screens/PhotoListScreen';
 import PhotoDetail from 'screens/PhotoDetailScreen';
 import { Store } from 'redux';
+import { persistStore } from 'redux-persist';
 import { ApplicationState } from 'utils/app.reducer';
 import configureStore from 'utils/store';
 import { Provider } from 'react-redux';
@@ -31,29 +32,31 @@ export default class NavigationManager {
 
   static setup() {
     this.store = configureStore();
-    this.registerScreens();
     Navigation.events().registerAppLaunchedListener(() => {
-      Navigation.setDefaultOptions(navDefaultOptions);
+      persistStore(this.store, null, () => {
+        this.registerScreens();
+        Navigation.setDefaultOptions(navDefaultOptions);
 
-      Navigation.setRoot({
-        root: {
-          stack: {
-            children: [
-              {
-                component: {
-                  name: 'albums.HomeScreen',
-                  options: {
-                    topBar: {
-                      title: {
-                        text: 'Welcome to Albums!',
+        Navigation.setRoot({
+          root: {
+            stack: {
+              children: [
+                {
+                  component: {
+                    name: 'albums.HomeScreen',
+                    options: {
+                      topBar: {
+                        title: {
+                          text: 'Welcome to Albums!',
+                        },
                       },
                     },
                   },
                 },
-              },
-            ],
+              ],
+            },
           },
-        },
+        });
       });
     });
   }
