@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { View, ListRenderItemInfo, FlatList } from 'react-native';
+import {
+  View,
+  ListRenderItemInfo,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
@@ -19,7 +24,7 @@ interface PhotoListProps {
   componentId: string;
   getPhotosByAlbum: (albumId: number) => void;
   albumId: number;
-  isloadingPhotos: boolean;
+  isLoadingPhotos: boolean;
   albums: Map<number, AlbumEntry>;
 }
 
@@ -56,7 +61,10 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
       data,
       listLayout: true,
     };
-    props.getPhotosByAlbum(props.albumId);
+  }
+
+  componentDidMount() {
+    this.getPhotosByAlbum();
   }
 
   onPhotoPress = (item: Photo) => {
@@ -65,6 +73,10 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
 
   onToggleLayout = () => {
     this.setState({ listLayout: !this.state.listLayout });
+  };
+
+  getPhotosByAlbum = () => {
+    this.props.getPhotosByAlbum(this.props.albumId);
   };
 
   extractKey = (item: Photo) => item.id.toString();
@@ -80,7 +92,7 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
   render() {
     return (
       <View style={styles.mainContainer}>
-        {this.props.isloadingPhotos && !this.state.data.length ? (
+        {this.props.isLoadingPhotos && !this.state.data.length ? (
           <Spinner fill />
         ) : (
           <View style={styles.mainContainer}>
@@ -102,6 +114,16 @@ export class PhotoList extends Component<PhotoListProps, PhotoListState> {
                 keyExtractor={this.extractKey}
                 numColumns={3}
                 removeClippedSubviews
+                refreshControl={
+                  <RefreshControl
+                    tintColor="#ffffff"
+                    refreshing={
+                      this.props.isLoadingPhotos &&
+                      Boolean(this.state.data.length)
+                    }
+                    onRefresh={this.getPhotosByAlbum}
+                  />
+                }
               />
             ) : (
               <Carousel
