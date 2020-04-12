@@ -3,18 +3,18 @@ import {
   OptionsModalPresentationStyle,
 } from 'react-native-navigation';
 import { Platform } from 'react-native';
-import { Photo } from 'actions/types';
+import { Photo, Album } from 'actions/types';
 
 export default class Router {
-  static goToPhotoListScreen = (componentId: string, albumId: number) => {
+  static goToPhotoListScreen = (componentId: string, album: Album) => {
     Navigation.push(componentId, {
       component: {
         name: 'albums.PhotoListScreen',
-        passProps: { albumId },
+        passProps: { albumId: album.id },
         options: {
           topBar: {
             title: {
-              text: 'Photo List',
+              text: album.title,
             },
           },
         },

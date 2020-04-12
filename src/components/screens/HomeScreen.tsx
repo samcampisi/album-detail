@@ -63,7 +63,7 @@ export class App extends Component<HomeProps, HomeState> {
   }
 
   onAlbumPress = (item: AlbumEntry) => {
-    Router.goToPhotoListScreen(this.props.componentId, item.album.id);
+    Router.goToPhotoListScreen(this.props.componentId, item.album);
   };
 
   fetchAlbums = (_start: number) => {
