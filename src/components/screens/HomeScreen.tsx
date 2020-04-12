@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 import { MediaState } from '../../actions/media.state';
 import {
   MediaActions,
@@ -59,11 +60,15 @@ export class App extends Component<HomeProps, HomeState> {
       fullList: Array.from(props.albums.values()),
       checkpointIndex: 0,
     };
+  }
+
+  componentDidMount() {
     this.fetchAlbums(0);
+    SplashScreen.hide();
   }
 
   onAlbumPress = (item: AlbumEntry) => {
-    Router.goToPhotoListScreen(this.props.componentId, item.album.id);
+    Router.goToPhotoListScreen(this.props.componentId, item.album);
   };
 
   fetchAlbums = (_start: number) => {
@@ -94,7 +99,10 @@ export class App extends Component<HomeProps, HomeState> {
       <AlbumItem
         albumEntry={info.item}
         onPress={this.onAlbumPress}
-        style={info.index % 2 ? styles.paddingRight : styles.paddingLeft}
+        style={
+          this.state.data.length > 1 &&
+          (info.index % 2 ? styles.paddingRight : styles.paddingLeft)
+        }
       />
     );
   };
