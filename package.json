@@ -20,7 +20,7 @@
     "@types/react-test-renderer": "^16.9.2",
     "@types/redux-actions": "^2.6.1",
     "@types/redux-thunk": "^2.1.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "lodash": "^4.17.15",
     "numbro": "^2.2.0",
     "react": "16.11.0",
